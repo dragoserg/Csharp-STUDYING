@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Mnogoagentnoe
 {
@@ -25,7 +26,6 @@ namespace Mnogoagentnoe
 
         private List<DataGridViewCell> Cells = new List<DataGridViewCell>(); //Список со всеми ячейками
         private List<DataGridViewCell> PotentialCustomers = new List<DataGridViewCell>(); //Список со всеми возможными покупателями
-        private List<DataGridViewCell> Buyers = new List<DataGridViewCell>(); //Список со всеми покупателями
         private Dictionary<DataGridViewCell, int> Customers = new Dictionary<DataGridViewCell, int>();
         private List<int> CustomersList = new List<int>();
         private List<int> PotentialCustomersList = new List<int>();
@@ -55,7 +55,7 @@ namespace Mnogoagentnoe
             lblErrorDays.Text = string.Empty;
         }
 
-        private async void setPopulation() // Метод для записи ячеек с потенциальными потребителями
+        private void setPopulation() // Метод для записи ячеек с потенциальными потребителями
         {
             if (isPopulation)
             {
@@ -170,7 +170,44 @@ namespace Mnogoagentnoe
 
         private void updateChart()
         {
+            // Очистка старых серий, если они существуют
+            chart1.Series.Clear();
 
+            // Настройка диапазона осей
+            chart1.ChartAreas[0].AxisY.Minimum = 0; // Минимальное значение оси Y
+
+            // Создание серии для потенциальных покупателей
+            Series potentialSeries = new Series("Потенциальные покупатели");
+            potentialSeries.ChartType = SeriesChartType.Line; // Линейный график
+            potentialSeries.Color = Color.Yellow; // Цвет линии - желтый
+            potentialSeries.BorderWidth = 2; // Толщина линии
+
+            // Добавление данных из списка PotentialCustomersList
+            for (int i = 0; i < PotentialCustomersList.Count; i++)
+            {
+                potentialSeries.Points.AddXY(i + 1, PotentialCustomersList[i]);
+            }
+
+            // Добавление серии на график
+            chart1.Series.Add(potentialSeries);
+
+            // Создание серии для покупателей
+            Series customerSeries = new Series("Покупатели");
+            customerSeries.ChartType = SeriesChartType.Line; // Линейный график
+            customerSeries.Color = Color.Green; // Цвет линии - зеленый
+            customerSeries.BorderWidth = 2; // Толщина линии
+
+            // Добавление данных из списка CustomersList
+            for (int i = 0; i < CustomersList.Count; i++)
+            {
+                customerSeries.Points.AddXY(i + 1, CustomersList[i]);
+            }
+
+            // Добавление серии на график
+            chart1.Series.Add(customerSeries);
+
+            // Обновление графика
+            chart1.Invalidate();
         }
 
         private void deletePopulation() // Метод для удаления популяции
@@ -234,7 +271,7 @@ namespace Mnogoagentnoe
             Customers.Clear();
             PotentialCustomersList.Clear();
             CustomersList.Clear();
-            int day = 0;
+            day = 0;
         }
 
         private void btnSet_Click(object sender, EventArgs e)
