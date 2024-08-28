@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,7 +23,6 @@ namespace WindowsFormsApp2
         DataGridViewCell currentRaftLocation; //Текущее местоположение плота
         DataGridViewCell currentPeopleLocation; //Текущее местоположение людей на плоту
         DataGridViewCell startPeopleLocation; //Текущее местоположение людей на плоту
-        private const int MAXPEOPLEONINPUT = 4;
         private int currentPeopleOnInput = 0;
         private int currentPeopleOnRaft = 0;
         private Random rnd = new Random();
