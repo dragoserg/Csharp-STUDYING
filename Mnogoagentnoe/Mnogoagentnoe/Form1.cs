@@ -166,6 +166,7 @@ namespace Mnogoagentnoe
             PotentialCustomersList.Add(PotentialCustomers.Count());
             CustomersList.Add(Customers.Count());
             day++;
+            lblDay.Text = day.ToString();
         }
 
         private void updateChart()
@@ -272,6 +273,7 @@ namespace Mnogoagentnoe
             PotentialCustomersList.Clear();
             CustomersList.Clear();
             day = 0;
+            lblDay.Text = day.ToString();
         }
 
         private void btnSet_Click(object sender, EventArgs e)

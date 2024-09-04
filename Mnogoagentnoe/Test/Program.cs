@@ -1,29 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Test
+class Program
 {
-    internal class Program
+    static void Main()
     {
-        static void Main(string[] args)
+        // Параметры модели
+        double beta = 0.3; // Коэффициент передачи вируса
+        double sigma = 0.1; // Коэффициент перехода из латентного состояния в заболевание
+        double gamma = 0.1; // Коэффициент выздоровления
+
+        // Начальные условия
+        double S = 999; // Количество восприимчивых
+        double E = 0; // Количество латентно зараженных
+        double I = 1; // Количество заболевших
+        double R = 0; // Количество выздоровевших
+
+        // Время моделирования
+        double time = 0;
+        double dt = 1; // Шаг интегрирования (в днях)
+
+        // Количество дней для моделирования
+        int days = 100;
+
+        Console.WriteLine("Day\tS\tE\tI\tR");
+
+        for (int i = 0; i < days; i++)
         {
-            Dictionary<string, int> dict = new Dictionary<string, int>();
+            Console.WriteLine($"{i}\t{S:F2}\t{E:F2}\t{I:F2}\t{R:F2}");
 
-            dict["1"] = 1;
-            dict["2"] = 1;
-            dict["3"] = 1;
-            dict["4"] = 1;
+            // Метод Эйлера для обновления значений
+            double dS = -beta * S * I;
+            double dE = beta * S * I - sigma * E;
+            double dI = sigma * E - gamma * I;
+            double dR = gamma * I;
 
-            foreach (var obj in dict)
-            {
-                Console.WriteLine(obj.Value);
-            }
+            S += dS * dt;
+            E += dE * dt;
+            I += dI * dt;
+            R += dR * dt;
 
-            dict["1"] = 3;
-            Console.WriteLine(dict["1"]);
+            time += dt;
         }
     }
 }
