@@ -103,11 +103,25 @@ namespace Task_2
 
         private void updateChart()
         {
-            // Добавление данных в график
-            chart1.Series["Not Sick"].Points.AddXY(day, notSick);
-            chart1.Series["Latency"].Points.AddXY(day, latency);
-            chart1.Series["Infected"].Points.AddXY(day, infected);
-            chart1.Series["Recovered"].Points.AddXY(day, recovered);
+            if (chart1.InvokeRequired)
+            {
+                chart1.Invoke(new Action(() =>
+                {
+                    // Добавление данных в график
+                    chart1.Series["Not Sick"].Points.AddXY(day, notSick);
+                    chart1.Series["Latency"].Points.AddXY(day, latency);
+                    chart1.Series["Infected"].Points.AddXY(day, infected);
+                    chart1.Series["Recovered"].Points.AddXY(day, recovered);
+                }));
+            }
+            else
+            {
+                // Добавление данных в график
+                chart1.Series["Not Sick"].Points.AddXY(day, notSick);
+                chart1.Series["Latency"].Points.AddXY(day, latency);
+                chart1.Series["Infected"].Points.AddXY(day, infected);
+                chart1.Series["Recovered"].Points.AddXY(day, recovered);
+            }
         }
 
         private void iteration()
@@ -128,8 +142,9 @@ namespace Task_2
                 if (dataGridView1.Rows.Count == 1)
                     await Task.Run(() => setPopulation());
                 await Task.Run(() => iteration());
+                await Task.Run(() => iteration());
                 // Запуск моделирования
-                while (infected >= 0 || latency >= 0)
+                while (Math.Round(infected) > 0 || Math.Round(latency) > 0)
                 {
                     await Task.Run(() => iteration());
                     await Task.Delay(100); // Задержка для визуализации

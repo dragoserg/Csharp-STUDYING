@@ -190,8 +190,6 @@ namespace WindowsFormsApp2
                 previousPeopleLacation = currentPeopleLocation;
                 Thread.Sleep(100);
             }
-
-
         }
 
         private void toTheRight()
