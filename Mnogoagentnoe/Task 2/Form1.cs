@@ -35,6 +35,7 @@ namespace Task_2
 
         private void setTable()
         {
+            dataGridView1.Rows.Add();
             dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[INDEXOFNOTSICK].Value = notSick;
             dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[INDEXOFLATENCY].Value = latency;
             dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[INDEXOFINFECTED].Value = infected;
@@ -49,7 +50,7 @@ namespace Task_2
 
         private void iteration()
         {
-            
+            setTable();
         }
 
         private async void btnStart_Click_1(object sender, EventArgs e)
@@ -58,7 +59,8 @@ namespace Task_2
             if (int.TryParse(textBox1.Text, out totalPopulation))
             {
                 lblTest.Text = totalPopulation.ToString();
-                await Task.Run(() => setPopulation());
+                if (dataGridView1.Rows.Count > 1)
+                    await Task.Run(() => setPopulation());
                 await Task.Run(() => iteration());
             }
             else
